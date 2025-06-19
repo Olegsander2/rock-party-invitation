@@ -11,7 +11,7 @@ document.querySelector('form').addEventListener('submit', async (e) => {
   };
   
   try {
-    const response = await fetch(formData.get('google-script-url'), {
+    const response = await fetch(formData.get('https://script.google.com/macros/s/AKfycbxKZIr1ULctHBpFIvaSwdpFYGdVg8NCiczdfNnhaRQgrqWYLCDKFGfmYIOcwVzFFBGz/exec'), {
       method: 'POST',
       body: JSON.stringify(data)
     });

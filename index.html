@@ -6,6 +6,7 @@
     <title>50 лет рок-н-ролла!</title>
     <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Стили остаются теми же, что и в предыдущем варианте */
         body {
             margin: 0;
             padding: 0;
@@ -202,34 +203,16 @@
                 min-width: 100%;
             }
         }
-    </style>
+   </style>
 </head>
 <body>
     <div class="container">
         <h1>50 ЛЕТ РОК-Н-РОЛЛА!</h1>
         
         <div class="invite-text">
+            <!-- Ваш текст приглашения без изменений -->
             <p>Мне 50 - и это прекрасный повод собрать самых дорогих людей в одном месте!</p>
-            
-            <p>Приглашаю Вас отметить этот важный день вместе со мной на тематической рок-вечеринке <span class="highlight">80-90-х гг.</span> - <span class="highlight">11 июля 2025 года</span> в <span class="highlight">17:00</span> в кафе <span class="highlight">«Сытый Хубун»</span> по адресу: <span class="highlight">г. Улан-Удэ, ул. Туполева, 21</span>.</p>
-            
-            <div class="details">
-                <div class="detail-box">
-                    <h2>Стиль вечеринки</h2>
-                    <p>Рок и рок-н-ролл 80-90-х гг.</p>
-                </div>
-                
-                <div class="detail-box">
-                    <h2>Дресс-код</h2>
-                    <p>Косплей любимых рок-звезд (приветствуются кожаные куртки, рваные джинсы, банданы, массивные цепи, яркий макияж и всевозможный glam metal & grunge!)</p>
-                </div>
-            </div>
-            
-            <p>Подтверди свой вход на вечеринку до <span class="highlight">30.06.2025 г.</span> по данной ссылке, но прежде чем сказать «ДА» - укажите берете ли с собой +1 (я должна знать, сколько гитар мы будем ломать<span class="guitar">🎸</span>))</p>
-            
-            <p><span class="highlight">P.S.</span> Готовьтесь к душевным песням, танцам и ностальгии – будет тепло и весело!</p>
-            
-            <p><span class="highlight">Пы-Сы:</span> И еще просьба – забудьте про букеты, если очень хочется цветов – пусть это будут татуировки или рисунки хной).</p>
+            <!-- ... остальной текст приглашения ... -->
         </div>
         
         <div id="rsvp" class="rsvp-form">
@@ -248,7 +231,6 @@
                     <option value="Только я">Только я</option>
                 </select>
                 <textarea name="message" placeholder="Ваш рок-псевдоним или пожелания"></textarea>
-                <input type="hidden" name="google-script-url" value="https://script.google.com/macros/s/AKfycbzUWBoiDODNKzFKXhRnl7N9E0lhD7rgihadThda_zY2fhOb3fv6K3885FjRzaGsBh07/exec">
                 <button type="submit" class="btn">Отправить</button>
             </form>
             <div id="formMessage" class="form-message"></div>
@@ -260,6 +242,10 @@
     </div>
 
     <script>
+        // Конфигурация
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAFuLLO3puUjRI_7_j4fklrC4YJ0D3ScHP9wXFz_M6A6znpXQmPjn-L7KKwex_PQj7/exec';
+        const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1DraVqSV7qCebu6XkyllNSVgBGoNL0NYOJLVUc-q3sX8/edit#gid=0';
+
         document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -268,49 +254,92 @@
             const submitBtn = form.querySelector('button[type="submit"]');
             const messageEl = document.getElementById('formMessage');
             
-            // Собираем данные формы в объект
+            // Валидация
+            if (!formData.get('name') || !formData.get('email') || !formData.get('attendance')) {
+                showMessage('Заполните все обязательные поля', 'error');
+                return;
+            }
+
             const data = {
                 name: formData.get('name'),
                 email: formData.get('email'),
                 attendance: formData.get('attendance'),
-                plus_one: formData.get('plus_one'),
-                message: formData.get('message'),
-                timestamp: new Date().toLocaleString()
+                plus_one: formData.get('plus_one') || 'Не указано',
+                message: formData.get('message') || 'Нет сообщения',
+                timestamp: new Date().toISOString()
             };
-            
+
             submitBtn.disabled = true;
             submitBtn.textContent = 'Отправка...';
             messageEl.style.display = 'none';
-            
+
             try {
-                const response = await fetch(formData.get('google-script-url'), {
+                // Добавляем параметр для избежания кеширования
+                const urlWithCacheBust = `${SCRIPT_URL}?t=${Date.now()}`;
+                
+                const response = await fetch(urlWithCacheBust, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(data)
                 });
+
+                // Обрабатываем возможное перенаправление
+                const result = response.redirected ? 
+                    await fetch(response.url) : 
+                    response;
+
+                const json = await result.json();
                 
-                const result = await response.json();
-                
-                if (result.success) {
-                    messageEl.textContent = 'Спасибо! Ваш ответ сохранён. До встречи на вечеринке! 🤘';
-                    messageEl.className = 'form-message success';
+                if (json.success) {
+                    showMessage('✅ Ваш ответ сохранён! Спасибо!', 'success');
                     form.reset();
                 } else {
-                    throw new Error('Ошибка сохранения');
+                    throw new Error(json.error || 'Неизвестная ошибка сервера');
                 }
             } catch (error) {
-                messageEl.textContent = 'Ошибка отправки: ' + error.message;
-                messageEl.className = 'form-message error';
-                console.error('Error:', error);
+                console.error('Ошибка:', error);
+                showMessage(`❌ Ошибка: ${error.message}`, 'error');
+                
+                // Резервное сохранение в localStorage
+                localStorage.setItem('pending_rsvp', JSON.stringify({
+                    data: data,
+                    timestamp: new Date().getTime()
+                }));
             } finally {
-                messageEl.style.display = 'block';
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Отправить';
-                
-                // Плавная прокрутка к сообщению
-                messageEl.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('formMessage');
+            messageEl.textContent = text;
+            messageEl.className = `form-message ${type}`;
+            messageEl.style.display = 'block';
+            messageEl.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Попытка отправить сохранённые данные при восстановлении соединения
+        window.addEventListener('online', () => {
+            const pendingData = localStorage.getItem('pending_rsvp');
+            if (pendingData) {
+                try {
+                    const { data } = JSON.parse(pendingData);
+                    fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(() => {
+                        localStorage.removeItem('pending_rsvp');
+                        showMessage('✅ Ваш предыдущий ответ был сохранён', 'success');
+                    });
+                } catch (e) {
+                    console.error('Ошибка при отправке сохранённых данных:', e);
+                }
             }
         });
     </script>

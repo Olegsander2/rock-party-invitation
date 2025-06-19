@@ -168,7 +168,7 @@
             <div class="form-container">
                 <h2 class="form-title">ПОДТВЕРДИТЕ УЧАСТИЕ</h2>
                 
-                <form id="invitationForm">
+                <form id="rsvp-form">
                     <div class="form-group">
                         <label for="name">Ваше имя *</label>
                         <input type="text" id="name" name="name" required>
@@ -188,17 +188,17 @@
                         </select>
                     </div>
                     
-                    <div class="form-group" id="plusOneGroup" style="display: none;">
-                        <label for="plusOne">Берёте с собой +1?</label>
-                        <select id="plusOne" name="plusOne">
+                    <div class="form-group" id="plus-one-group" style="display: none;">
+                        <label for="plus-one">Берёте с собой +1?</label>
+                        <select id="plus-one" name="plus-one">
                             <option value="no">Нет</option>
                             <option value="yes">Да</option>
                         </select>
                     </div>
                     
-                    <div class="form-group" id="plusOneNameGroup" style="display: none;">
-                        <label for="plusOneName">Имя вашего +1</label>
-                        <input type="text" id="plusOneName" name="plusOneName">
+                    <div class="form-group" id="plus-one-name-group" style="display: none;">
+                        <label for="plus-one-name">Имя вашего +1</label>
+                        <input type="text" id="plus-one-name" name="plus-one-name">
                     </div>
                     
                     <div class="form-group">
@@ -219,55 +219,66 @@
         </div>
     </div>
     
-    <script>
-        // Показываем/скрываем поле +1 в зависимости от выбора "Придёте?"
+   <script>
+        // Показываем/скрываем поле +1
         document.getElementById('attendance').addEventListener('change', function() {
-            const plusOneGroup = document.getElementById('plusOneGroup');
-            const plusOneNameGroup = document.getElementById('plusOneNameGroup');
-            
+            const plusOneGroup = document.getElementById('plus-one-group');
             if (this.value === 'yes') {
                 plusOneGroup.style.display = 'block';
             } else {
                 plusOneGroup.style.display = 'none';
-                plusOneNameGroup.style.display = 'none';
+                document.getElementById('plus-one-name-group').style.display = 'none';
             }
         });
         
-        // Показываем поле для имени +1 если выбран вариант "Да"
-        document.getElementById('plusOne').addEventListener('change', function() {
-            const plusOneNameGroup = document.getElementById('plusOneNameGroup');
-            
-            if (this.value === 'yes') {
-                plusOneNameGroup.style.display = 'block';
-            } else {
-                plusOneNameGroup.style.display = 'none';
-            }
+        // Показываем поле для имени +1
+        document.getElementById('plus-one').addEventListener('change', function() {
+            const plusOneNameGroup = document.getElementById('plus-one-name-group');
+            plusOneNameGroup.style.display = this.value === 'yes' ? 'block' : 'none';
         });
         
         // Обработка отправки формы
-        document.getElementById('invitationForm').addEventListener('submit', function(e) {
+        document.getElementById('rsvp-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-          
-            const formData = new FormData(this);
-            fetch('https://script.google.com/macros/s/AKfycbx05EEmqyw0zixgnHaGORKpobsd2WNL7n2kiFG1dARpInf3kJBpk6lVZOoTy-vSXjKW/exec', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Спасибо! Ваш ответ сохранён.');
-                this.reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
+            // Получаем данные формы
+            const formData = {
+                Name: document.getElementById('name').value.trim(),
+                Phone: document.getElementById('phone').value.trim(),
+                Attendance: document.getElementById('attendance').value,
+                PlusOne: document.getElementById('plus-one').value,
+                PlusOneName: document.getElementById('plus-one-name').value.trim() || '',
+                Message: document.getElementById('message').value.trim() || ''
+            };
+            
+            // ВАЖНО: Замените этот URL на ваш URL веб-приложения из Apps Script
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykXGaOwLbkQMuAIIcc0iE8bqF8W_VGAudiMEUjsGyLuMvrRaZz0C7wa7lioED3uaN0/exec";
+            
+            try {
+                // Отправляем данные
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams(formData).toString()
+                });
+                
+                if (!response.ok) throw new Error('Ошибка сети');
+                
+                const result = await response.json();
+                if (result.result === 'success') {
+                    alert('Спасибо! Ваш ответ сохранён.');
+                    this.reset();
+                    document.getElementById('plus-one-group').style.display = 'none';
+                    document.getElementById('plus-one-name-group').style.display = 'none';
+                } else {
+                    throw new Error(result.error || 'Неизвестная ошибка');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
                 alert('Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз.');
-            });
-            
-            
-            // Для демонстрации просто показываем сообщение
-            alert('Спасибо! Ваш ответ сохранён.\n(В реальном проекте данные будут отправляться в Google Таблицу)');
-            this.reset();
+            }
         });
     </script>
 </body>

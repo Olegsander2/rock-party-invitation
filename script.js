@@ -1,11 +1,7 @@
-document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+document.querySelector('form').addEventListener('submit', async (e) => {
   e.preventDefault();
   
-  const form = e.target;
-  const formData = new FormData(form);
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const messageEl = document.getElementById('formMessage');
-  
+  const formData = new FormData(e.target);
   const data = {
     name: formData.get('name'),
     email: formData.get('email'),
@@ -14,39 +10,14 @@ document.getElementById('rsvpForm').addEventListener('submit', async function(e)
     message: formData.get('message')
   };
   
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Отправка...';
-  messageEl.style.display = 'none';
-  
   try {
-    // Добавляем проверку URL
-    const scriptUrl = formData.get('google-script-url');
-    if (!scriptUrl.includes('https://script.google.com')) {
-      throw new Error('Некорректный URL скрипта');
-    }
-    
-    const response = await fetch(scriptUrl, {
+    const response = await fetch(formData.get('google-script-url'), {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-      mode: 'no-cors' // Добавляем этот параметр
+      body: JSON.stringify(data)
     });
     
-    // Упрощенная обработка ответа
-    messageEl.textContent = 'Спасибо! Ваш ответ сохранён. До встречи на вечеринке! 🤘';
-    messageEl.className = 'form-message success';
-    form.reset();
-    
+    alert('Ваш ответ сохранён! Спасибо!');
   } catch (error) {
-    messageEl.textContent = `Ошибка: ${error.message}. Попробуйте позже или свяжитесь с организатором.`;
-    messageEl.className = 'form-message error';
-    console.error('Ошибка отправки:', error);
-  } finally {
-    messageEl.style.display = 'block';
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Отправить';
-    messageEl.scrollIntoView({ behavior: 'smooth' });
+    alert('Ошибка отправки: ' + error.message);
   }
 });

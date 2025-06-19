@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 лет рок-н-ролла!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #000 url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+            background-size: cover;
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-family: 'Rock Salt', cursive;
+            font-size: 3rem;
+            color: #ff4500;
+            text-shadow: 0 0 10px #ff8c00, 0 0 20px #ff4500;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        h2 {
+            font-family: 'Rock Salt', cursive;
+            color: #ff8c00;
+            margin-top: 40px;
+        }
+        
+        .invite-text {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff4500;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            color: #ff8c00;
+            font-weight: bold;
+        }
+        
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 40px 0;
+        }
+        
+        .detail-box {
+            background: rgba(255, 69, 0, 0.2);
+            border: 1px solid #ff4500;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            flex: 1;
+            min-width: 200px;
+            transition: transform 0.3s;
+        }
+        
+        .detail-box:hover {
+            transform: scale(1.05);
+            background: rgba(255, 69, 0, 0.3);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #ff4500;
+            color: white;
+            padding: 15px 30px;
+            margin: 20px 0;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border: 2px solid #ff4500;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: transparent;
+            color: #ff4500;
+            transform: scale(1.05);
+        }
+        
+        .signature {
+            font-family: 'Rock Salt', cursive;
+            font-size: 1.5rem;
+            margin-top: 40px;
+            color: #ff8c00;
+        }
+        
+        .guitar {
+            font-size: 2rem;
+            display: inline-block;
+            animation: swing 1s infinite alternate;
+            transform-origin: top center;
+        }
+        
+        /* Стили формы */
+        .rsvp-form {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff4500;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        input, select, textarea {
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ff4500;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid green;
+            display: block;
+        }
+        
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid red;
+            display: block;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes swing {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(10deg); }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .invite-text {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            
+            .detail-box {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>50 ЛЕТ РОК-Н-РОЛЛА!</h1>
+        
+        <div class="invite-text">
+            <p>Мне 50 - и это прекрасный повод собрать самых дорогих людей в одном месте!</p>
+            
+            <p>Приглашаю Вас отметить этот важный день вместе со мной на тематической рок-вечеринке <span class="highlight">80-90-х гг.</span> - <span class="highlight">11 июля 2025 года</span> в <span class="highlight">17:00</span> в кафе <span class="highlight">«Сытый Хубун»</span> по адресу: <span class="highlight">г. Улан-Удэ, ул. Туполева, 21</span>.</p>
+            
+            <div class="details">
+                <div class="detail-box">
+                    <h2>Стиль вечеринки</h2>
+                    <p>Рок и рок-н-ролл 80-90-х гг.</p>
+                </div>
+                
+                <div class="detail-box">
+                    <h2>Дресс-код</h2>
+                    <p>Косплей любимых рок-звезд (приветствуются кожаные куртки, рваные джинсы, банданы, массивные цепи, яркий макияж и всевозможный glam metal & grunge!)</p>
+                </div>
+            </div>
+            
+            <p>Подтверди свой вход на вечеринку до <span class="highlight">30.06.2025 г.</span> по данной ссылке, но прежде чем сказать «ДА» - укажите берете ли с собой +1 (я должна знать, сколько гитар мы будем ломать<span class="guitar">🎸</span>))</p>
+            
+            <p><span class="highlight">P.S.</span> Готовьтесь к душевным песням, танцам и ностальгии – будет тепло и весело!</p>
+            
+            <p><span class="highlight">Пы-Сы:</span> И еще просьба – забудьте про букеты, если очень хочется цветов – пусть это будут татуировки или рисунки хной).</p>
+        </div>
+        
+        <div id="rsvp" class="rsvp-form">
+            <h2>Подтверди участие</h2>
+            <form id="rsvpForm">
+                <input type="text" name="name" placeholder="Ваше имя" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <select name="attendance" required>
+                    <option value="">Вы придёте?</option>
+                    <option value="Да, я буду!">Да, я буду!</option>
+                    <option value="К сожалению, не смогу">К сожалению, не смогу</option>
+                </select>
+                <select name="plus_one">
+                    <option value="">Берёте +1?</option>
+                    <option value="Да, с +1">Да, с +1</option>
+                    <option value="Только я">Только я</option>
+                </select>
+                <textarea name="message" placeholder="Ваш рок-псевдоним или пожелания"></textarea>
+                <input type="hidden" name="google-script-url" value="https://script.google.com/macros/s/AKfycbwvhPqf8amDU7Xit0qxx6fbs96JTg3Xq0rhmhDHK8mMqoDeUFECn8s8NcyjLpJpatNe/exec">
+                <button type="submit" class="btn">Отправить</button>
+            </form>
+            <div id="formMessage" class="form-message"></div>
+        </div>
+        
+        <div class="signature">
+            Искренне Ваша,<br>Светлана Сокольникова
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const messageEl = document.getElementById('formMessage');
+            
+            // Собираем данные формы в объект
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                attendance: formData.get('attendance'),
+                plus_one: formData.get('plus_one'),
+                message: formData.get('message'),
+                timestamp: new Date().toLocaleString()
+            };
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+            messageEl.style.display = 'none';
+            
+            try {
+                const response = await fetch(formData.get('google-script-url'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    messageEl.textContent = 'Спасибо! Ваш ответ сохранён. До встречи на вечеринке! 🤘';
+                    messageEl.className = 'form-message success';
+                    form.reset();
+                } else {
+                    throw new Error('Ошибка сохранения');
+                }
+            } catch (error) {
+                messageEl.textContent = 'Ошибка отправки: ' + error.message;
+                messageEl.className = 'form-message error';
+                console.error('Error:', error);
+            } finally {
+                messageEl.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить';
+                
+                // Плавная прокрутка к сообщению
+                messageEl.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>

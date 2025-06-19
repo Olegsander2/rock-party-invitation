@@ -192,50 +192,30 @@
     </div>
 
     <script>
-        // Обработка формы
-        document.getElementById('party-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                phone: document.getElementById('phone').value,
-                guests: document.getElementById('guests').value,
-                song: document.getElementById('song').value,
-                message: document.getElementById('message').value
-            };
-            
-            try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbwYPy34n5oWvwtF_tLPlVP9HGtIgDKjdxH9FPp2NO3LWG76sc7jy7d2jUYnHlRYZTaC/exec', {
-                    method: 'POST',
-                    body: JSON.stringify(formData),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                const result = await response.json();
-                
-                if (result.result === 'success') {
-                    document.getElementById('party-form').style.display = 'none';
-                    document.getElementById('form-success').style.display = 'block';
-                } else {
-                    document.getElementById('form-error').style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('form-error').style.display = 'block';
-            }
-        });
-        
-        // Показать форму при нажатии на кнопку
-        document.querySelector('.rsvp-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('rsvp-form').style.display = 'block';
-            window.scrollTo({
-                top: document.getElementById('rsvp-form').offsetTop - 50,
-                behavior: 'smooth'
-            });
-        });
-    </script>
+document.getElementById('party-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Собираем данные формы
+    const formData = new URLSearchParams();
+    formData.append('name', document.getElementById('name').value);
+    formData.append('phone', document.getElementById('phone').value);
+    formData.append('guests', document.getElementById('guests').value);
+    formData.append('song', document.getElementById('song').value);
+    formData.append('message', document.getElementById('message').value);
+    
+    // Формируем URL с параметрами
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbwYPy34n5oWvwtF_tLPlVP9HGtIgDKjdxH9FPp2NO3LWG76sc7jy7d2jUYnHlRYZTaC/exec';
+    const urlWithParams = `${scriptUrl}?${formData.toString()}`;
+    
+    // Отправляем через перенаправление
+    window.location.href = urlWithParams;
+    
+    // Показываем сообщение об успехе (может не сработать из-за перенаправления)
+    document.getElementById('party-form').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+    
+    return false;
+});
+</script>
 </body>
 </html>

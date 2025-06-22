@@ -11,14 +11,15 @@
             color: #fff;
             margin: 0;
             padding: 0;
-            background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-image: url('images/79c13375c0388375bd0d2a611d670aad (1).jpg');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
+            overflow-x: hidden;
         }
         
         .overlay {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 50, 0.5);
             min-height: 100vh;
             padding: 20px;
         }
@@ -27,19 +28,21 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border: 3px solid #ff0000;
+            background-color: rgba(0, 20, 80, 0.7);
+            border: 3px solid #00a8ff;
             border-radius: 10px;
-            box-shadow: 0 0 20px #ff0000;
+            box-shadow: 0 0 20px #00a8ff, 0 0 40px #0066ff;
+            position: relative;
+            z-index: 1;
         }
         
         h1 {
-            color: #ff0000;
+            color: #00a8ff;
             text-align: center;
             font-size: 2.5em;
             text-transform: uppercase;
             margin-bottom: 30px;
-            text-shadow: 0 0 10px #ff0000;
+            text-shadow: 0 0 10px #00a8ff, 0 0 20px #0066ff;
         }
         
         .invitation-text {
@@ -49,29 +52,31 @@
         }
         
         .highlight {
-            color: #ff0000;
+            color: #00a8ff;
             font-weight: bold;
+            text-shadow: 0 0 5px #0066ff;
         }
         
         .details {
-            background-color: rgba(255, 0, 0, 0.1);
+            background-color: rgba(0, 100, 255, 0.2);
             padding: 15px;
-            border-left: 5px solid #ff0000;
+            border-left: 5px solid #00a8ff;
             margin: 20px 0;
         }
         
         .form-container {
             margin-top: 40px;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 1px solid #ff0000;
+            background-color: rgba(0, 20, 80, 0.6);
+            border: 1px solid #00a8ff;
             border-radius: 5px;
         }
         
         .form-title {
             text-align: center;
-            color: #ff0000;
+            color: #00a8ff;
             margin-bottom: 20px;
+            text-shadow: 0 0 5px #0066ff;
         }
         
         .form-group {
@@ -81,20 +86,20 @@
         label {
             display: block;
             margin-bottom: 5px;
-            color: #ff0000;
+            color: #00a8ff;
         }
         
         input, select, textarea {
             width: 100%;
             padding: 10px;
-            background-color: #222;
-            border: 1px solid #ff0000;
+            background-color: rgba(0, 20, 50, 0.8);
+            border: 1px solid #00a8ff;
             color: #fff;
             border-radius: 5px;
         }
         
         button {
-            background-color: #ff0000;
+            background: linear-gradient(90deg, #0066ff, #00a8ff);
             color: #fff;
             border: none;
             padding: 12px 20px;
@@ -106,8 +111,9 @@
         }
         
         button:hover {
-            background-color: #cc0000;
+            background: linear-gradient(90deg, #00a8ff, #0066ff);
             transform: scale(1.02);
+            box-shadow: 0 0 10px #00a8ff;
         }
         
         .signature {
@@ -115,12 +121,69 @@
             font-style: italic;
             margin-top: 30px;
             font-size: 1.2em;
+            color: #00a8ff;
         }
         
         .rock-icon {
             text-align: center;
             font-size: 2em;
             margin: 20px 0;
+            color: #00a8ff;
+            text-shadow: 0 0 10px #0066ff;
+        }
+        
+        /* Стили для барабанов в тексте */
+        .inline-drum {
+            display: inline-block;
+            font-size: 1.5em;
+            margin: 0 5px;
+            animation: drumBeat 1s infinite alternate;
+            transform-origin: center bottom;
+            vertical-align: middle;
+        }
+        
+        .drum-section {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5em;
+        }
+        
+        .drum-line {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .drum-item {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #003366, #001a33);
+            border: 2px solid #00a8ff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00a8ff;
+            font-size: 1.5em;
+            box-shadow: 0 0 10px #0066ff;
+            animation: pulse 2s infinite alternate;
+        }
+        
+        @keyframes drumBeat {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.2); }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px #0066ff;
+            }
+            100% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px #00a8ff;
+            }
         }
         
         @media (max-width: 600px) {
@@ -135,6 +198,16 @@
             .invitation-text {
                 font-size: 1em;
             }
+            
+            .drum-item {
+                width: 40px;
+                height: 40px;
+                font-size: 1em;
+            }
+            
+            .inline-drum {
+                font-size: 1.2em;
+            }
         }
     </style>
 </head>
@@ -145,24 +218,44 @@
             <h1>МНЕ 50 - И ЭТО ПРЕКРАСНЫЙ ПОВОД!</h1>
             
             <div class="invitation-text">
-                <p>Дорогие друзья!</p>
+                <p>Дорогие друзья! </p>
                 
-                <p>Приглашаю Вас отметить этот важный день вместе со мной на тематической <span class="highlight">рок-вечеринке 80-90-х гг.</span></p>
+                <p>Приглашаю Вас отметить этот важный день вместе со мной на тематической <span class="highlight">рок-вечеринке 80-90-х гг.</span> <span class="inline-drum">🎵</span></p>
+                
+                <div class="drum-section">
+                    <div class="drum-line">
+                        <div class="drum-item">🥁</div>
+                        <div class="drum-item">🎵</div>
+                        <div class="drum-item">🎶</div>
+                        <div class="drum-item">🥁</div>
+                    </div>
+                    <p>Готовьтесь к громкой музыке и отличному настроению!</p>
+                </div>
                 
                 <div class="details">
-                    <p><strong>Дата:</strong> 11 июля 2025 года</p>
+                    <p><strong>Дата:</strong> 11 июля 2025 года <span class="inline-drum">🎶</span></p>
                     <p><strong>Время:</strong> 17:00</p>
                     <p><strong>Место:</strong> кафе «Сытый Хубун»</p>
                     <p><strong>Адрес:</strong> г. Улан-Удэ, ул. Туполева, 21</p>
-                    <p><strong>Стиль вечеринки:</strong> Рок и рок-н-ролл 80-90-х гг.</p>
+                    <p><strong>Стиль вечеринки:</strong> Рок и рок-н-ролл 80-90-х гг. <span class="inline-drum">🥁</span></p>
                     <p><strong>Дресс-код:</strong> Косплей любимых рок-звезд (приветствуются кожаные куртки, рваные джинсы, банданы, массивные цепи, яркий макияж и всевозможный glam metal & grunge!)</p>
                 </div>
                 
-                <p>Подтверди свой вход на вечеринку до <span class="highlight">30.06.2025 г.</span>, но прежде чем сказать «ДА» - укажите берете ли с собой +1 (я должна знать, сколько гитар мы будем ломать)))</p>
+                <p>Подтверди свой вход на вечеринку до <span class="highlight">30.06.2025 г.</span>, но прежде чем сказать «ДА» - укажите берете ли с собой +1 (я должна знать, сколько гитар мы будем ломать))) <span class="inline-drum">🎵</span></p>
                 
-                <p><strong>P.S.</strong> Готовьтесь к душевным песням, танцам и ностальгии – будет тепло и весело!</p>
+                <div class="drum-section">
+                    <p>Будет жарко! <span class="inline-drum">🔥</span> Будет громко! <span class="inline-drum">🎶</span></p>
+                    <div class="drum-line">
+                        <div class="drum-item">🥁</div>
+                        <div class="drum-item">🎸</div>
+                        <div class="drum-item">🎤</div>
+                        <div class="drum-item">🥁</div>
+                    </div>
+                </div>
                 
-                <p><strong>Пы-Сы:</strong> И еще просьба – забудьте про букеты, если очень хочется цветов – пусть это будут татуировки или рисунки хной).</p>
+                <p><strong>P.S.</strong> Готовьтесь к душевным песням, танцам и ностальгии - будет тепло и весело! <span class="inline-drum">🎶</span></p>
+                
+                <p><strong>Пы-Сы:</strong> И еще просьба - забудьте про букеты, если очень хочется цветов - пусть это будут татуировки или рисунки хной). <span class="inline-drum">🎵</span></p>
             </div>
             
             <div class="form-container">
@@ -183,7 +276,7 @@
                         <label for="attendance">Вы придёте? *</label>
                         <select id="attendance" name="attendance" required>
                             <option value="">Выберите вариант</option>
-                            <option value="yes">Да, я буду!</option>
+                            <option value="yes">Да, я буду! <span class="inline-drum">🥁</span></option>
                             <option value="no">К сожалению, не смогу</option>
                         </select>
                     </div>
@@ -192,7 +285,7 @@
                         <label for="plus-one">Берёте с собой +1?</label>
                         <select id="plus-one" name="plus-one">
                             <option value="no">Нет</option>
-                            <option value="yes">Да</option>
+                            <option value="yes">Да <span class="inline-drum">🎵</span></option>
                         </select>
                     </div>
                     
@@ -206,7 +299,7 @@
                         <textarea id="message" name="message" rows="3"></textarea>
                     </div>
                     
-                    <button type="submit">ОТПРАВИТЬ</button>
+                    <button type="submit">ОТПРАВИТЬ <span class="inline-drum">🎶</span></button>
                 </form>
             </div>
             
@@ -219,7 +312,7 @@
         </div>
     </div>
     
-   <script>
+    <script>
         // Показываем/скрываем поле +1
         document.getElementById('attendance').addEventListener('change', function() {
             const plusOneGroup = document.getElementById('plus-one-group');
@@ -279,6 +372,18 @@
                 console.error('Ошибка:', error);
                 alert('Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз.');
             }
+        });
+
+        // Анимация барабанов при наведении
+        document.querySelectorAll('.drum-item, .inline-drum').forEach(drum => {
+            drum.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.3)';
+                this.style.transition = 'transform 0.2s';
+            });
+            
+            drum.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
         });
     </script>
 </body>
